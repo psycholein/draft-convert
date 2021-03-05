@@ -3,7 +3,6 @@ import blockInlineStyles from '../../src/blockInlineStyles';
 import encodeBlock from '../../src/encodeBlock';
 import { Map } from 'immutable';
 import React from 'react';
-import { convertFromRaw, convertToRaw } from 'draft-js';
 
 const buildRawBlock = (
   text,
@@ -12,22 +11,17 @@ const buildRawBlock = (
   entityRanges = [],
   data = Map()
 ) => {
-  return convertToRaw(
-    convertFromRaw({
-      entityMap,
-      blocks: [
-        {
-          text,
-          depth: 0,
-          data,
-          entityRanges,
-          inlineStyleRanges: styleRanges,
-          type: 'unstyled',
-          key: 'test',
-        },
-      ],
-    })
-  ).blocks[0];
+  return [
+    {
+      text,
+      depth: 0,
+      data,
+      entityRanges,
+      inlineStyleRanges: styleRanges,
+      type: 'unstyled',
+      key: 'test',
+    },
+  ];
 };
 
 describe('blockEntities', () => {
@@ -552,7 +546,7 @@ describe('blockEntities', () => {
       ]
     );
 
-    const middleware = next => (entity, originalText) => {
+    const middleware = (next) => (entity, originalText) => {
       if (entity.type === 'test') {
         return <a />;
       }

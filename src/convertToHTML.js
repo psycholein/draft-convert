@@ -2,7 +2,6 @@
 import invariant from 'invariant';
 import React from 'react';
 import ReactDOMServer from 'react-dom/server';
-import { convertToRaw } from 'draft-js';
 
 import encodeBlock from './encodeBlock';
 import blockEntities from './blockEntities';
@@ -23,10 +22,10 @@ const convertToHTML = ({
   styleToHTML = {},
   blockToHTML = {},
   entityToHTML = defaultEntityToHTML,
-}) => contentState => {
+}) => (rawState) => {
   invariant(
-    contentState !== null && contentState !== undefined,
-    'Expected contentState to be non-null'
+    rawState !== null && rawState !== undefined,
+    'Expected rawState to be non-null'
   );
 
   let getBlockHTML;
@@ -39,12 +38,10 @@ const convertToHTML = ({
     );
   }
 
-  const rawState = convertToRaw(contentState);
-
   let listStack = [];
 
   let result = rawState.blocks
-    .map(block => {
+    .map((block) => {
       const { type, depth } = block;
 
       let closeNestTags = '';
@@ -53,9 +50,7 @@ const convertToHTML = ({
       const blockHTMLResult = getBlockHTML(block);
       if (!blockHTMLResult) {
         throw new Error(
-          `convertToHTML: missing HTML definition for block with type ${
-            block.type
-          }`
+          `convertToHTML: missing HTML definition for block with type ${block.type}`
         );
       }
 

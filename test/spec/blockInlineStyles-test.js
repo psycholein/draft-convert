@@ -1,24 +1,18 @@
 import blockInlineStyles from '../../src/blockInlineStyles';
 import React from 'react';
-import { convertFromRaw, convertToRaw } from 'draft-js';
 
 const buildRawBlock = (text, styleRanges) => {
-  return convertToRaw(
-    convertFromRaw({
-      entityMap: {},
-      blocks: [
-        {
-          text,
-          data: {},
-          depth: 0,
-          entityRanges: [],
-          inlineStyleRanges: styleRanges,
-          type: 'unstyled',
-          key: 'test',
-        },
-      ],
-    })
-  ).blocks[0];
+  return [
+    {
+      text,
+      data: {},
+      depth: 0,
+      entityRanges: [],
+      inlineStyleRanges: styleRanges,
+      type: 'unstyled',
+      key: 'test',
+    },
+  ];
 };
 
 describe('blockInlineStyles', () => {
@@ -103,7 +97,7 @@ describe('blockInlineStyles', () => {
         length: 2,
       },
     ]);
-    const result = blockInlineStyles(contentState, style => {
+    const result = blockInlineStyles(contentState, (style) => {
       if (style === 'CUSTOM') {
         return <span />;
       }
@@ -119,7 +113,7 @@ describe('blockInlineStyles', () => {
         length: 2,
       },
     ]);
-    const middleware = next => style => {
+    const middleware = (next) => (style) => {
       if (style === 'CUSTOM') {
         return <span />;
       }
@@ -137,7 +131,7 @@ describe('blockInlineStyles', () => {
         length: 2,
       },
     ]);
-    const middleware = next => style => {
+    const middleware = (next) => (style) => {
       if (style === 'BOLD') {
         const element = next(style);
         return React.cloneElement(element, {

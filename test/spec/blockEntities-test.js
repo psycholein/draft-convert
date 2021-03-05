@@ -6,22 +6,20 @@ import React from 'react';
 
 const buildRawBlock = (
   text,
-  entityMap = {},
+  _entityMap = {},
   styleRanges = [],
   entityRanges = [],
-  data = Map()
+  data = {}
 ) => {
-  return [
-    {
-      text,
-      depth: 0,
-      data,
-      entityRanges,
-      inlineStyleRanges: styleRanges,
-      type: 'unstyled',
-      key: 'test',
-    },
-  ];
+  return {
+    text,
+    depth: 0,
+    data,
+    entityRanges,
+    inlineStyleRanges: styleRanges,
+    type: 'unstyled',
+    key: 'test',
+  };
 };
 
 describe('blockEntities', () => {
@@ -612,13 +610,18 @@ describe('blockEntities', () => {
       },
     };
 
-    const rawBlock = buildRawBlock(' ', entityMap, null, [
-      {
-        offset: 0,
-        length: 1,
-        key: 0,
-      },
-    ]);
+    const rawBlock = buildRawBlock(
+      ' ',
+      entityMap,
+      [],
+      [
+        {
+          offset: 0,
+          length: 1,
+          key: 0,
+        },
+      ]
+    );
 
     const result = blockEntities(
       rawBlock,

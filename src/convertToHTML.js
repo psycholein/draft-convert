@@ -133,11 +133,7 @@ const convertToHTML = ({
 };
 
 export default (...args) => {
-  if (
-    args.length === 1 &&
-    Object.prototype.hasOwnProperty.call(args[0], '_map') &&
-    args[0].getBlockMap != null
-  ) {
+  if (args.length === 1 && args[0].blocks != null) {
     // skip higher-order function and use defaults
     return convertToHTML({})(...args);
   }

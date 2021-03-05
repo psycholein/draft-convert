@@ -2,17 +2,15 @@ import blockInlineStyles from '../../src/blockInlineStyles';
 import React from 'react';
 
 const buildRawBlock = (text, styleRanges) => {
-  return [
-    {
-      text,
-      data: {},
-      depth: 0,
-      entityRanges: [],
-      inlineStyleRanges: styleRanges,
-      type: 'unstyled',
-      key: 'test',
-    },
-  ];
+  return {
+    text,
+    data: {},
+    depth: 0,
+    entityRanges: [],
+    inlineStyleRanges: styleRanges,
+    type: 'unstyled',
+    key: 'test',
+  };
 };
 
 describe('blockInlineStyles', () => {

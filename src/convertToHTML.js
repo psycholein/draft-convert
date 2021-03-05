@@ -133,7 +133,7 @@ const convertToHTML = ({
 };
 
 export default (...args) => {
-  if (args.length === 1 && args[0].blocks != null) {
+  if (args.length === 1 && Array.isArray(args[0].blocks)) {
     // skip higher-order function and use defaults
     return convertToHTML({})(...args);
   }
